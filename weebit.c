@@ -18,6 +18,7 @@ void reverse(char s[])
 
 void pad(char s[]) 
 {
+  // takes a "binary number", and pads with leading zeroes 
   char * tmpstring = malloc(33);
   int length = strlen(s);
   if (length < 32) {
@@ -102,8 +103,8 @@ int main(int argc, char **argv)
     char * boutput = malloc(33);
     boutput[0] = '\0';
        
-    // do the magic, convert string numb to 32bit binary REPREZENT
+    // do the magic, convert numb to 32bit binary REPREZENT and save in boutput
     chomp(inum, boutput);
-    printf("%2s : %s\n", argv[i], boutput);
+    printf("%d 		: %s\n", inum, boutput);
   }
 }
