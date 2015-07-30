@@ -30,6 +30,7 @@ void pad(char s[])
     strcat(tmpstring,s);
     strncpy(s, tmpstring, 33);
   }
+  free(tmpstring);
 
 }
 
@@ -106,5 +107,7 @@ int main(int argc, char **argv)
     // do the magic, convert numb to 32bit binary REPREZENT and save in boutput
     chomp(inum, boutput);
     printf("%d 		: %s\n", inum, boutput);
+
+    free(boutput);
   }
 }
