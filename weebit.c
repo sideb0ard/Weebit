@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <regex.h>
+
 
 void reverse(char s[])
 {
@@ -48,11 +50,51 @@ void chomp(int inum, char boutput[])
     pad(boutput);
 }
 
+void barf(char *msg) 
+{
+  printf("BARF! %s", msg);
+  exit(1);
+}
+
+int notNum(char arg[])
+{
+  regex_t regex;
+  /* Compile regular expression */
+  int reti;
+  char msgbuf[100];
+  reti = regcomp(&regex, "[^0-9]", 0);
+  if (reti) {
+    fprintf(stderr, "Could not compile regex\n");
+    exit(1);
+  }
+  /* Execute regular expression */
+  reti = regexec(&regex, arg, 0, NULL, 0);
+  if (!reti) {
+      return 1;  // bad - found numbers
+  }
+  else if (reti == REG_NOMATCH) {
+      return 0;
+  }
+  else {
+      regerror(reti, &regex, msgbuf, sizeof(msgbuf));
+      fprintf(stderr, "Regex match failed: %s\n", msgbuf);
+      exit(1);
+  }
+}
+
+
 int main(int argc, char **argv) 
 {
   for ( int i = 1; i < argc; i++ ) {
 
-    // interpret argv's as number
+    if (strlen(argv[i]) > 10) 
+        barf("INTS mate, fucking INTS ONLY! (i.e. <= 2,147,483,647)\n");
+
+    if (notNum(argv[i])) {
+      printf("YOu're a wee jobbie, that wisnae a number: %s\n", argv[i]);
+      continue;
+    }
+
     int inum;
     sscanf(argv[i], "%d", &inum); 
 
@@ -60,6 +102,7 @@ int main(int argc, char **argv)
     char * boutput = malloc(33);
     boutput[0] = '\0';
        
+    // do the magic, convert string numb to 32bit binary REPREZENT
     chomp(inum, boutput);
     printf("%2s : %s\n", argv[i], boutput);
   }
