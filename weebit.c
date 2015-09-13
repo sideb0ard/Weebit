@@ -21,11 +21,11 @@ void pad(char s[])
   // takes a "binary number", and pads with leading zeroes 
   char * tmpstring = malloc(33);
   int length = strlen(s);
-  if (length < 32) {
+  if (length <= 32) {
     int padlength = 32 - length;
     for (int i=0; i < padlength; i++) 
     {
-      tmpstring[i] = '0';
+      strcat(tmpstring, "0");
     }
     strcat(tmpstring,s);
     strncpy(s, tmpstring, 33);
@@ -48,7 +48,6 @@ void chomp(int inum, char boutput[])
     }
 
     reverse(boutput);
-    // printf("%s\n", boutput);
     pad(boutput);
 }
 
@@ -102,7 +101,7 @@ int main(int argc, char **argv)
 
     // setup "binary" output string
     char * boutput = malloc(33);
-    boutput[0] = '\0';
+    // boutput[0] = '\0';  // do i need this? works without it as far as i can tell
        
     // do the magic, convert numb to 32bit binary REPREZENT and save in boutput
     chomp(inum, boutput);
