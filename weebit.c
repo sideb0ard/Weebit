@@ -36,8 +36,6 @@ void pad(char s[])
 
 void chomp(int inum, char boutput[]) 
 {
-    // this is working from least significant bit,
-    // so the string will be in reverse
     while (inum) {
       if (inum & 1) {
         strcat(boutput, "1");
